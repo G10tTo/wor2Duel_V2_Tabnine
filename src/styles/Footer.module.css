@@ -1,4 +1,18 @@
 /* Footer Styles */
+/* The AI suggested this:
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  width: 100%;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+I added this:
+*/
 footer {
   background-color: #000000 !important;
   margin: auto !important;
@@ -17,7 +31,6 @@ footer {
   box-shadow: 0 -5px 20px rgba(0, 81, 255, 0.7) !important;
 
   transition: all 0.5s ease !important;
-
 }
 
 footer p {
@@ -36,6 +49,16 @@ footer p {
   }
 }
 
+
+/* The AI suggested this:
+@media (min-height: 710px) {
+  footer {
+    height: 30px !important;
+  }
+}
+
+I added this:
+*/
 @media (min-height: 710px) {
   footer {
     position: fixed !important;
