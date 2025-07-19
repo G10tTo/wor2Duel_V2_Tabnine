@@ -51,7 +51,8 @@ footer p {
 }
 
 
-/* The AI suggested this:
+/* D2_T4 ---> 
+The AI suggested this:
 @media (min-height: 710px) {
   footer {
     height: 30px !important;
@@ -74,4 +75,5 @@ I added this:
   footer {
     background-color: #ebedfd !important;
   }
-}
+}/*
+<--- */
