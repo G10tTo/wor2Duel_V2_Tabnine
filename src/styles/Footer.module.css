@@ -1,5 +1,5 @@
-/* Footer Styles */
-/* The AI suggested this:
+/* D2_T5 --->
+The AI suggested this:
 footer {
   display: flex;
   justify-content: center;
@@ -31,7 +31,8 @@ footer {
   box-shadow: 0 -5px 20px rgba(0, 81, 255, 0.7) !important;
 
   transition: all 0.5s ease !important;
-}
+}/*
+<--- */
 
 footer p {
   margin: auto !important;
