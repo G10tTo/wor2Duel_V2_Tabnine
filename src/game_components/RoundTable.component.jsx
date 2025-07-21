@@ -46,4 +46,5 @@ const RoundTable = ({ rounds, onClose }) => {
     </div>
   );
 };
+
 export default RoundTable;

@@ -1,6 +1,10 @@
+/* D4_T6 ---> */
 .roundTableContainer {
   margin-top: 2rem;
-}
+  max-height: 400px; /* Adjust the height as needed */
+  overflow-y: auto;
+}/*
+<--- */
 
 .roundTable {
   width: 100%;

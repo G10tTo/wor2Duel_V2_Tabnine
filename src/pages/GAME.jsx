@@ -133,12 +133,14 @@ function App() {
         </div>
       </div>
 
+      {/* D4_T5 ---> */}
       <div
         className={Gs.circleContainer}
         style={{
           boxShadow: currentPlayer === 'ai' ? '0 0 15px rgb(255, 0, 0)' : '0 0 15px rgb(0, 255, 0)',
         }}
-      >
+      >{/* <--- */}
+
         <LetterButtons onClick={handleUserInput} disabled={currentPlayer !== 'user'} />
 
         <div className={Gs.circleCenter}>
