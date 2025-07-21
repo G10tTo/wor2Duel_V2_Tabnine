@@ -3,6 +3,7 @@ import LetterButtons from '../game_components/LetterButtons.component';
 import WordDisplay from '../game_components/WordDisplay.component';
 import RoundTable from '../game_components/RoundTable.component';
 import GameRules from '../game_components/Rules.component';
+import Header from '../page_components/Header.component';
 
 import { isValidWord, getPossibleWords } from '../game_components/dictionary';
 import Gs from '../styles/GAME.module.css';
@@ -31,6 +32,17 @@ function App() {
     const startingPlayer = Math.random() < 0.5 ? 'user' : 'ai';
     setCurrentPlayer(startingPlayer);
   };
+
+  /* D4_T4 ---> */
+  const restartGame = () => {
+    clearTimeout(turnTimer.current);
+    setSequence('');
+    setCurrentPlayer(null);
+    setScore({ user: 0, ai: 0 });
+    setRounds([]);
+    setLastCompletedWord(null);
+  };/*
+  <--- */
 
   useEffect(() => {
     if (currentPlayer === 'ai') {
@@ -108,6 +120,7 @@ function App() {
 
   return (
     <div className={Gs.App}>
+      <Header onRestart={restartGame} />
       <div className={Gs.scores}>
         <div className={Gs.score}>
           <p>Player:</p>

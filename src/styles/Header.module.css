@@ -1,3 +1,4 @@
+/* D4_T4 --->*/
 .header {
   width: 100%;
   padding: 5px 0;
@@ -7,9 +8,30 @@
   background-color: #000000 !important;
   border-bottom: #3300ff 2px solid !important;
   box-shadow: -5px 0 20px rgba(0, 81, 255, 0.7) !important;
-
+  
   transition: all 0.5s ease !important;
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
+.restartButton {
+  margin-right: 20px;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #3300ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.restartButton:hover {
+  background-color: #2200cc;
+}/*
+<--- */
 
 .header h1 {
   background: linear-gradient(45deg, #3300ff, #2db4cf) !important;
