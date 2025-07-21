@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from 'react';
 import LetterButtons from '../game_components/LetterButtons.component';
 import WordDisplay from '../game_components/WordDisplay.component';
@@ -132,7 +133,12 @@ function App() {
         </div>
       </div>
 
-      <div className={Gs.circleContainer}>
+      <div
+        className={Gs.circleContainer}
+        style={{
+          boxShadow: currentPlayer === 'ai' ? '0 0 15px rgb(255, 0, 0)' : '0 0 15px rgb(0, 255, 0)',
+        }}
+      >
         <LetterButtons onClick={handleUserInput} disabled={currentPlayer !== 'user'} />
 
         <div className={Gs.circleCenter}>
