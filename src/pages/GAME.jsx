@@ -108,21 +108,21 @@ function App() {
 
   return (
     <div className={Gs.App}>
+      <div className={Gs.scores}>
+        <div className={Gs.score}>
+          <p>Player:</p>
+          <p>{score.user}</p>
+        </div>
+        <div className={Gs.score}>
+          <p>AI:</p>
+          <p>{score.ai}</p>
+        </div>
+      </div>
 
       <div className={Gs.circleContainer}>
         <LetterButtons onClick={handleUserInput} disabled={currentPlayer !== 'user'} />
 
         <div className={Gs.circleCenter}>
-          <div className={Gs.scores}>
-            <div className={Gs.score}>
-              <p>Player:</p>
-              <p>{score.user}</p>
-            </div>
-            <div className={Gs.score}>
-              <p>AI:</p>
-              <p>{score.ai}</p>
-            </div>
-          </div>
           {currentPlayer === null ? (
             <p>LET'S PLAY</p>
           ) : (

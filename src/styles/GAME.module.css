@@ -127,3 +127,22 @@
     margin: 20px auto;
   }
 }
+
+
+@media (max-width: 535px) {
+  /* D4_T1 ---> */
+  .circleContainer {
+    width: 350px;
+    height: 350px;
+  }/* 
+  <--- */
+  /* D4_T2 ---> */
+  .scores {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: column;
+  }/* 
+  <--- */
+}
