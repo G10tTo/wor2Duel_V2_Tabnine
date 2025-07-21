@@ -1,49 +1,32 @@
-
-import { useState, useEffect, useRef } from 'react';
-import LetterButtons from '../game_components/LetterButtons.component';
-import WordDisplay from '../game_components/WordDisplay.component';
-import RoundTable from '../game_components/RoundTable.component';
-import GameRules from '../game_components/Rules.component';
-import Header from '../page_components/Header.component';
-
-import { isValidWord, getPossibleWords } from '../game_components/dictionary';
 import Gs from '../styles/GAME.module.css';
+import WordDisplay from '../game_components/WordDisplay.component';
+import Header from '../page_components/Header.component';
+import LetterButtons from '../game_components/LetterButtons.component';
+import { getPossibleWords } from '../game_components/dictionary';
+import GameRules from '../game_components/Rules.component';
+import { useState, useEffect, useRef } from 'react';
+import RoundTable from '../game_components/RoundTable.component';
+import useGameState from '../hooks/useGameState';
 
 function App() {
-  const [sequence, setSequence] = useState('');
-  const [currentPlayer, setCurrentPlayer] = useState(null); // null till the game starts
-  const [score, setScore] = useState({ user: 0, ai: 0 });
-  const [rounds, setRounds] = useState([]);
+  const {
+    sequence,
+    currentPlayer,
+    score,
+    rounds,
+    lastCompletedWord,
+    checkWordCompletion,
+    checkNoMoreWords,
+    updateSequence,
+    switchPlayer,
+    resetGame,
+    startNewRound,
+  } = useGameState();
+
   const [showRules, setShowRules] = useState(false);
   const [showResults, setShowResults] = useState(false);
-  const [lastCompletedWord, setLastCompletedWord] = useState(null);
 
   const turnTimer = useRef(null);
-
-  const registerRound = async (word, winner) => {
-    const valid = await isValidWord(word);
-    const round = { word, winner, valid };
-    setRounds(prev => [...prev, round]);
-    setLastCompletedWord(round);
-  };
-
-  const startNewRound = () => {
-    clearTimeout(turnTimer.current);
-    setSequence('');
-    const startingPlayer = Math.random() < 0.5 ? 'user' : 'ai';
-    setCurrentPlayer(startingPlayer);
-  };
-
-  /* D4_T4 ---> */
-  const restartGame = () => {
-    clearTimeout(turnTimer.current);
-    setSequence('');
-    setCurrentPlayer(null);
-    setScore({ user: 0, ai: 0 });
-    setRounds([]);
-    setLastCompletedWord(null);
-  };/*
-  <--- */
 
   useEffect(() => {
     if (currentPlayer === 'ai') {
@@ -63,65 +46,41 @@ function App() {
   const handleUserInput = async (letter) => {
     if (currentPlayer !== 'user') return;
     const newSeq = sequence + letter.toLowerCase();
-    setSequence(newSeq);
 
-    if (newSeq.length >= 4 && await isValidWord(newSeq)) {
-      setScore(prev => ({ ...prev, user: prev.user + 1 }));
-      registerRound(newSeq, 'user');
-      setCurrentPlayer(null); // End of round
-      return;
-    }
+    if (await checkWordCompletion(newSeq, 'user')) return;
+    if (await checkNoMoreWords(newSeq, 'user')) return;
 
-    const possible = await getPossibleWords(newSeq);
-    if (possible.length === 0) {
-      // if no possible words, AI score 1 point
-      setScore(prev => ({ ...prev, ai: prev.ai + 1 }));
-      registerRound(newSeq, 'ai');
-      setCurrentPlayer(null);
-      return;
-    }
-
-    setSequence(newSeq);
-    setCurrentPlayer('ai');
+    updateSequence(newSeq);
+    switchPlayer();
   };
 
   const aiTurn = async () => {
     const possible = await getPossibleWords(sequence);
 
     if (possible.length === 0) {
-      setScore(prev => ({ ...prev, user: prev.user + 1 }));
-      registerRound(sequence, 'user');
-      setCurrentPlayer(null);
+      await checkNoMoreWords(sequence, 'ai');
       return;
     }
 
     const nextLetters = possible.map(w => w[sequence.length]).filter(Boolean);
 
     if (nextLetters.length === 0) {
-      setScore(prev => ({ ...prev, user: prev.user + 1 }));
-      registerRound(sequence, 'user');
-      setCurrentPlayer(null);
+      await checkNoMoreWords(sequence, 'ai');
       return;
     }
 
     const nextLetter = nextLetters[Math.floor(Math.random() * nextLetters.length)];
     const newSeq = sequence + nextLetter.toLowerCase();
 
-    if (newSeq.length >= 4 && await isValidWord(newSeq)) {
-      setScore(prev => ({ ...prev, ai: prev.ai + 1 }));
-      registerRound(newSeq, 'ai');
-      setSequence('');
-      setCurrentPlayer(null);
-      return;
-    }
+    if (await checkWordCompletion(newSeq, 'ai')) return;
 
-    setSequence(newSeq);
-    setCurrentPlayer('user');
+    updateSequence(newSeq);
+    switchPlayer();
   };
 
   return (
     <div className={Gs.App}>
-      <Header onRestart={restartGame} />
+      <Header onRestart={resetGame} />
       <div className={Gs.scores}>
         <div className={Gs.score}>
           <p>Player:</p>
@@ -133,14 +92,12 @@ function App() {
         </div>
       </div>
 
-      {/* D4_T5 ---> */}
       <div
         className={Gs.circleContainer}
         style={{
           boxShadow: currentPlayer === 'ai' ? '0 0 15px rgb(255, 0, 0)' : '0 0 15px rgb(0, 255, 0)',
         }}
-      >{/* <--- */}
-
+      >
         <LetterButtons onClick={handleUserInput} disabled={currentPlayer !== 'user'} />
 
         <div className={Gs.circleCenter}>
